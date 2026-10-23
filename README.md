@@ -50,7 +50,7 @@ This is a presentation prototype, not production billing or entitlement enforcem
 
 ## Local location controls
 
-A location consent sheet opens on page load; choosing Use my location then requests browser geolocation permission. The location chip can reopen it. With consent, the browser sends current coordinates directly to BigDataCloud's free client-side reverse geocoder. BigDataCloud uses location/network signals to improve its geolocation data. Hal retains only the resulting city/country in component state; it neither persists precise coordinates nor sends them to Exa. Denial, timeout and geocoder failures preserve the previous selection. Country flags override both modes and clear a previous city. An in-flight GPS lookup cannot overwrite a newer country selection.
+On page load Hal requests location directly through the browser permission flow. The location chip retries it. Browsers remember grants/denials, so a native prompt may not appear again. Singapore is the fallback. With consent, the browser sends current coordinates directly to BigDataCloud's free client-side reverse geocoder. BigDataCloud uses location/network signals to improve its geolocation data. Hal retains only the resulting city/country in component state; it neither persists precise coordinates nor sends them to Exa. Denial, timeout and geocoder failures preserve the previous selection. Country flags override both modes and clear a previous city. An in-flight GPS lookup cannot overwrite a newer country selection.
 
 Country toggles update greeting, prompts and voice recognition language. Live Exa receives the selected country/city and answer language. Sample answers are still fixtures, not live localized search results. No location override is persisted across reloads.
 
