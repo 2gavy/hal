@@ -18,12 +18,12 @@ The repository is ready for the existing Vercel Git integration. Use Next.js fra
 
 ## Walkthrough
 
-- Chat starts in Singapore English. Plan showcases Philippines Tagalog. Location/language labels are read-only.
+- Both modes use the same visitor location from Vercel IP geolocation headers. Location/language labels are read-only.
 - Click Chat/Plan, press left/right arrows outside an input, or swipe across the content area.
 - Complete three Plan requests: the counter moves 3 → 2 → 1 → 0. The fourth opens the upgrade sheet. Errors and cancellations do not consume runs. Existing results remain visible.
 - The upgrade button simulates Hal+; it takes no payment.
-- Click Daisy's avatar for sample/live controls, detected-location mode, and Reset demo.
-- The default showcase deliberately changes location by mode to match the requested two-locale presentation. Detected mode uses Vercel's country header, mapped to SG/English or PH/Tagalog, with SG as the local/unsupported-country fallback. This is country-level, not GPS or city detection.
+- Click Daisy's avatar for sample/live controls and Reset demo.
+- Vercel provides approximate city/country (not GPS). Country sets the default answer language: SG English, PH Tagalog, MY Malay, ID Indonesian, TH Thai; other countries use English. Without geo headers, the UI shows Location unavailable and local requests ask for a city where needed. No location permission or third-party IP lookup is needed.
 - New conversation clears the current mode's on-device transcript; switching modes preserves it. Transcripts and the demo allowance persist in localStorage.
 - Voice uses browser speech recognition where supported; it requires browser microphone permission.
 
@@ -46,4 +46,4 @@ Tests cover the allowance boundary, URL sanitization, and intent/location routin
 
 ## Demo boundaries
 
-This is a presentation prototype, not production billing or entitlement enforcement. Allowance and upgrade are client-side and resettable. The API has a best-effort per-instance rate limiter (10 requests/minute/IP), request validation, a 55-second timeout, and an optional access code. For public paid-API use, configure Vercel rate limiting and provider spend limits; distributed enforcement and account-based entitlements are still needed. There is no shared conversation memory sent to Exa: each live request is currently standalone. Only SG and PH locale scenarios are implemented.
+This is a presentation prototype, not production billing or entitlement enforcement. Allowance and upgrade are client-side and resettable. The API has a best-effort per-instance rate limiter (10 requests/minute/IP), request validation, a 55-second timeout, and an optional access code. For public paid-API use, configure Vercel rate limiting and provider spend limits; distributed enforcement and account-based entitlements are still needed. There is no shared conversation memory sent to Exa: each live request is currently standalone. SG and PH have tailored demo copy; live answer language follows the detected country.

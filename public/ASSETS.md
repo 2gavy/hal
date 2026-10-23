@@ -1,4 +1,4 @@
-Daisy's demo avatar: photo by Oktavianus Mulyadi on Unsplash.
-https://unsplash.com/photos/a-close-up-of-a-woman-smiling-X0JVDIOqCEA
-https://unsplash.com/license
-Used as a fictional demo persona; no endorsement implied.
+Daisy's fictional demo avatar uses an Unsplash stock portrait.
+Source: https://images.unsplash.com/photo-1494790108377-be9c29b29330
+License: https://unsplash.com/license
+No endorsement implied.
