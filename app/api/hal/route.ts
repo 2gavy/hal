@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveLocation } from '@/lib/location.mjs';
+import { resolveLocation, selectedLocation } from '@/lib/location.mjs';
 import { buildSearch, safeUrl } from '@/lib/logic.mjs';
 export const maxDuration = 60;
 const buckets = new Map<string,{count:number;until:number}>();
@@ -9,7 +9,7 @@ export async function GET(req:NextRequest) {
 }
 export async function POST(req:NextRequest) {
  const start=Date.now();
- if(!process.env.EXA_API_KEY) return NextResponse.json({error:'Live search is not configured yet. Use sample mode, or add EXA_API_KEY in Vercel.'},{status:503});
+ if(!process.env.EXA_API_KEY) return NextResponse.json({error:'Live search is not configured yet. Add EXA_API_KEY to .env.local (locally) or Vercel environment settings.'},{status:503});
  if(process.env.HAL_ACCESS_CODE && req.headers.get('x-hal-access')!==process.env.HAL_ACCESS_CODE) return NextResponse.json({error:'Enter the demo access code in settings.'},{status:401});
  const origin=req.headers.get('origin');
  if(origin && origin!==req.nextUrl.origin) return NextResponse.json({error:'Request origin is not allowed.'},{status:403});
@@ -22,7 +22,7 @@ export async function POST(req:NextRequest) {
  if(bucket.count>=10) return NextResponse.json({error:'A little breather — please try again in a minute.'},{status:429});
  bucket.count++; buckets.set(key,bucket);
  try {
-  const response=await fetch('https://api.exa.ai/search',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':process.env.EXA_API_KEY,'Exa-Beta':'dynamic-highlights-2026-08-28'},body:JSON.stringify(buildSearch(body.query.trim(),body.mode,resolveLocation(req.headers.get('x-vercel-ip-country'),req.headers.get('x-vercel-ip-city')))),signal:AbortSignal.any([req.signal,AbortSignal.timeout(55000)])});
+  const response=await fetch('https://api.exa.ai/search',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':process.env.EXA_API_KEY,'Exa-Beta':'dynamic-highlights-2026-08-28'},body:JSON.stringify(buildSearch(body.query.trim(),body.mode,selectedLocation(body.location,resolveLocation(req.headers.get('x-vercel-ip-country'),req.headers.get('x-vercel-ip-city'))))),signal:AbortSignal.any([req.signal,AbortSignal.timeout(55000)])});
   if(!response.ok) return NextResponse.json({error:response.status===429?'Search is busy. Please try again shortly.':'Search could not complete. Please try again.',upstreamStatus:response.status},{status:502});
   const data=await response.json();
   const content=data.output?.content;

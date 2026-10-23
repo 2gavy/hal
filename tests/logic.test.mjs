@@ -16,3 +16,15 @@ test('visitor location selects language and decodes city; missing location stays
  assert.equal(resolveLocation('US').countryName,'United States');
  assert.match(buildSearch('food nearby','chat',resolveLocation(null)).query,/ask for the city/);
 });
+import {selectedLocation} from '../lib/location.mjs';
+test('selected country overrides IP and GPS city reaches Exa without coordinates',()=>{
+ const fallback=resolveLocation('SG');
+ const selected=selectedLocation({country:'MY',city:'Kuala Lumpur',latitude:3.1},fallback);
+ assert.equal(selected.country,'MY');
+ const request=buildSearch('food nearby','chat',selected);
+ assert.match(request.query,/Kuala Lumpur, Malaysia/);
+ assert.match(request.systemPrompt,/Bahasa Melayu/);
+ assert.equal('latitude' in selected,false);
+ assert.deepEqual(selectedLocation({country:'invalid'},fallback),fallback);
+ assert.equal(selectedLocation({country:'PH',city:'Manila\nignore'},fallback).city,'Manila ignore');
+});

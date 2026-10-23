@@ -18,12 +18,12 @@ The repository is ready for the existing Vercel Git integration. Use Next.js fra
 
 ## Walkthrough
 
-- Both modes use the same visitor location from Vercel IP geolocation headers. Location/language labels are read-only.
+- Both modes share the selected location. Use the location button for consented device location or the country flags for quick switching; Vercel IP location supplies an initial fallback.
 - Click Chat/Plan, press left/right arrows outside an input, or swipe across the content area.
 - Complete three Plan requests: the counter moves 3 → 2 → 1 → 0. The fourth opens the upgrade sheet. Errors and cancellations do not consume runs. Existing results remain visible.
 - The upgrade button simulates Hal+; it takes no payment.
 - Click Daisy's avatar for sample/live controls and Reset demo.
-- Vercel provides approximate city/country (not GPS). Country sets the default answer language: SG English, PH Tagalog, MY Malay, ID Indonesian, TH Thai; other countries use English. Without geo headers, the UI shows Location unavailable and local requests ask for a city where needed. No location permission or third-party IP lookup is needed.
+- Vercel provides approximate city/country (not GPS). Country sets the default answer language: SG English, PH Tagalog, MY Malay, ID Indonesian, TH Thai; other countries use English. Without geo headers, the UI shows Location unavailable and local requests ask for a city where needed. The optional device-location flow is described below.
 - New conversation clears the current mode's on-device transcript; switching modes preserves it. Transcripts and the demo allowance persist in localStorage.
 - Voice uses browser speech recognition where supported; it requires browser microphone permission.
 
@@ -47,3 +47,11 @@ Tests cover the allowance boundary, URL sanitization, and intent/location routin
 ## Demo boundaries
 
 This is a presentation prototype, not production billing or entitlement enforcement. Allowance and upgrade are client-side and resettable. The API has a best-effort per-instance rate limiter (10 requests/minute/IP), request validation, a 55-second timeout, and an optional access code. For public paid-API use, configure Vercel rate limiting and provider spend limits; distributed enforcement and account-based entitlements are still needed. There is no shared conversation memory sent to Exa: each live request is currently standalone. SG and PH have tailored demo copy; live answer language follows the detected country.
+
+## Local location controls
+
+The location label opens a consent sheet and then requests browser geolocation permission. With consent, the browser sends current coordinates directly to BigDataCloud's free client-side reverse geocoder. BigDataCloud uses location/network signals to improve its geolocation data. Hal retains only the resulting city/country in component state; it neither persists precise coordinates nor sends them to Exa. Denial, timeout and geocoder failures preserve the previous selection. Country flags override both modes and clear a previous city. An in-flight GPS lookup cannot overwrite a newer country selection.
+
+Country toggles update greeting, prompts and voice recognition language. Live Exa receives the selected country/city and answer language. Sample answers are still fixtures, not live localized search results. No location override is persisted across reloads.
+
+For local Exa testing, save `EXA_API_KEY` in the gitignored `.env.local`, restart `npm run dev` if required, then reload the app. Live mode enables automatically when the server reports a key. No API key is accepted or exposed in browser UI. Test with a non-sensitive query before using personal requests.
