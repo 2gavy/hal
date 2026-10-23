@@ -22,7 +22,7 @@ The repository is ready for the existing Vercel Git integration. Use Next.js fra
 - Click Chat/Plan, press left/right arrows outside an input, or swipe across the content area.
 - Complete three Plan requests: the counter moves 3 → 2 → 1 → 0. The fourth opens the upgrade sheet. Errors and cancellations do not consume runs. Existing results remain visible.
 - The upgrade button simulates Hal+; it takes no payment.
-- Click Daisy's avatar for sample/live controls and Reset demo.
+- Open Demo controls outside the app for country selection, sample/live controls, and Reset demo.
 - Vercel provides approximate city/country (not GPS). Country sets the default answer language: SG English, PH Tagalog, MY Malay, ID Indonesian, TH Thai; other countries use English. Without geo headers, the UI shows Location unavailable and local requests ask for a city where needed. The optional device-location flow is described below.
 - New conversation clears the current mode's on-device transcript; switching modes preserves it. Transcripts and the demo allowance persist in localStorage.
 - Voice uses browser speech recognition where supported; it requires browser microphone permission.
@@ -50,7 +50,7 @@ This is a presentation prototype, not production billing or entitlement enforcem
 
 ## Local location controls
 
-The location label opens a consent sheet and then requests browser geolocation permission. With consent, the browser sends current coordinates directly to BigDataCloud's free client-side reverse geocoder. BigDataCloud uses location/network signals to improve its geolocation data. Hal retains only the resulting city/country in component state; it neither persists precise coordinates nor sends them to Exa. Denial, timeout and geocoder failures preserve the previous selection. Country flags override both modes and clear a previous city. An in-flight GPS lookup cannot overwrite a newer country selection.
+A location consent sheet opens on page load; choosing Use my location then requests browser geolocation permission. The location chip can reopen it. With consent, the browser sends current coordinates directly to BigDataCloud's free client-side reverse geocoder. BigDataCloud uses location/network signals to improve its geolocation data. Hal retains only the resulting city/country in component state; it neither persists precise coordinates nor sends them to Exa. Denial, timeout and geocoder failures preserve the previous selection. Country flags override both modes and clear a previous city. An in-flight GPS lookup cannot overwrite a newer country selection.
 
 Country toggles update greeting, prompts and voice recognition language. Live Exa receives the selected country/city and answer language. Sample answers are still fixtures, not live localized search results. No location override is persisted across reloads.
 
