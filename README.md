@@ -22,8 +22,8 @@ The repository is ready for the existing Vercel Git integration. Use Next.js fra
 - Click Chat/Plan, press left/right arrows outside an input, or swipe across the content area.
 - Complete three Plan requests: the counter moves 3 → 2 → 1 → 0. The fourth opens the upgrade sheet. Errors and cancellations do not consume runs. Existing results remain visible.
 - The upgrade button simulates Hal+; it takes no payment.
-- Open Demo controls outside the app for country selection, sample/live controls, and Reset demo.
-- Vercel provides approximate city/country (not GPS). Country sets the default answer language: SG English, PH Tagalog, MY Malay, ID Indonesian, TH Thai; other countries use English. Without geo headers, the UI shows Location unavailable and local requests ask for a city where needed. The optional device-location flow is described below.
+- Open Profile → Settings → Demo controls for country selection, the live-search access code, and Reset demo.
+- The UI defaults to Singapore and English and requests browser location on load. Country sets the default answer language: SG English, PH Tagalog, MY Malay, ID Indonesian, TH Thai; other countries use English. If permission is unavailable, the current default remains. Demo controls allow manual country selection.
 - New conversation clears the current mode's on-device transcript; switching modes preserves it. Transcripts and the demo allowance persist in localStorage.
 - Voice uses browser speech recognition where supported; it requires browser microphone permission.
 
