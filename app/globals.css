@@ -7,3 +7,11 @@ body{background:#f8f8f8}.stage{padding:18px}.app-shell{container-type:inline-siz
 .location-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2cqw}.location-trigger{margin:0;min-width:0;gap:8px;text-align:left;padding:4px 0;font-size:3cqw}.location-trigger span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:35cqw}.location-trigger svg{flex-shrink:0}.country-toggles{display:flex;gap:3px;flex-shrink:0}.country-toggles button{width:28px;height:28px;font-size:19px;display:grid;place-items:center;border-radius:50%;padding:0;transition:background .15s}.country-toggles button[aria-pressed=true]{background:#e5f7f9;box-shadow:0 0 0 1px #00869745}.country-toggles button:hover{background:#f1f5f5}.language-label{font-size:2.7cqw;color:#858697;margin:1cqw 0 0 5cqw}.location-privacy{font-size:12px;line-height:1.7;color:#858697;margin:18px 0 24px}
 /* Keep the full preview visible in short desktop panels. */
 .app-shell{min-height:0}
+/* Hal+ membership is expressed through the identity and controls, not a banner. */
+.is-premium{--teal:#8a682b;--wash:#f6f0e4;background:linear-gradient(165deg,#fffcf5 0%,#fff 32%);border-color:#eee4d1}
+.is-premium .wordmark{color:#765723}.wordmark-plus{display:inline-block;margin-left:.5cqw;font-weight:450;letter-spacing:-.3cqw;color:#a17b38}
+.is-premium .avatar{box-shadow:0 0 0 2px #fff,0 0 0 3px #c6ac77}
+.is-premium .switch{background:#f4f0e8}.is-premium .switch .selected{background:linear-gradient(115deg,#ecd9aa,#d3b673);color:#382b13;box-shadow:inset 0 1px 0 #fff9,0 2px 5px #80612c12}
+.is-premium .send{background:linear-gradient(135deg,#ecd9aa,#d3b673);color:#382b13}
+.is-premium .composer{border-color:#eee5d5}.is-premium .suggestions button{border-color:#f0ebe2}
+.is-premium .country-toggles button[aria-pressed=true]{background:#f5ead2;box-shadow:0 0 0 1px #b5965755}
