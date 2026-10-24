@@ -51,8 +51,11 @@ button.avatar{cursor:pointer}.account-sheet{padding:35px 27px 25px}.profile-summ
 .header{position:relative;z-index:3}
 .country-popover{position:absolute;top:calc(100% + 10px);right:0;width:190px;padding:6px;background:#fff;border:1px solid #ececef;border-radius:16px;box-shadow:0 12px 36px #18202a18;z-index:5}
 .country-popover button{display:flex;align-items:center;gap:11px;width:100%;min-height:42px;padding:10px 12px;border-radius:10px;text-align:left;font-size:13px;line-height:20px;font-weight:500;color:var(--ink)}
-.country-popover button>span:first-child{font-size:19px;line-height:20px}
-.country-popover button svg{margin-left:auto;color:var(--teal)}
+.country-popover button>span:first-child{width:22px;flex-shrink:0;font-size:19px;line-height:20px}
+.country-popover button svg{flex-shrink:0;color:var(--teal)}
+.country-popover button>svg:last-child{margin-left:auto}
+.country-popover button>svg:first-child{width:22px;margin-left:0}
+.country-popover button:last-child{margin-top:6px;border-top:1px solid var(--line);border-radius:0 0 10px 10px}
 .country-popover button:hover{background:#f7f8f8}
 .country-popover button[aria-pressed=true]{background:var(--wash);color:var(--teal)}
 :is(.is-premium, html[data-hal-premium="true"] .app-shell[data-restoring="true"]) .country-popover button[aria-pressed=true]{background:#f8f4eb;color:#87652c}
