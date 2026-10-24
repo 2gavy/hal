@@ -247,3 +247,17 @@ button.avatar{cursor:pointer}.account-sheet{padding:35px 27px 25px}.profile-summ
 .answer-feedback button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .answer-feedback button:disabled{opacity:.5;cursor:wait}
 .feedback-message{font-size:10px;color:var(--muted);max-width:150px;line-height:1.4;margin-left:4px}
+
+/* Keep the app frame stationary; scrolling belongs to its content panels. */
+html,body{width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0}
+.stage{position:fixed;top:var(--app-top,0px);left:0;right:0;height:var(--app-height,100dvh);min-height:0;overflow:hidden}
+.app-shell{height:100%;max-height:848px;min-height:0;touch-action:auto}
+.conversation{overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:none;-webkit-overflow-scrolling:touch}
+.sheet,.voice-evidence{overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}
+@media(max-width:540px),(max-height:540px) and (pointer:coarse){
+  .stage{padding:0;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+  .app-shell{width:100%;max-width:none;height:100%;max-height:none;border:0;border-radius:0;box-shadow:none}
+  .header{padding-top:calc(4.3cqw + env(safe-area-inset-top))}
+  .input-row textarea,.sheet input,.sheet select{font-size:16px}
+}
