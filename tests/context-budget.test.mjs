@@ -1,0 +1,8 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {budgetEvidence,MAX_CONTEXT_CHARACTERS} from '../lib/context-budget.mjs';
+import {buildSearch} from '../lib/logic.mjs';
+test('plan total is capped across uneven sources, not per URL',()=>{const result=budgetEvidence([{excerpt:'a'.repeat(20000)},{excerpt:'b'.repeat(20000)}],'plan');assert.equal(MAX_CONTEXT_CHARACTERS,24000);assert.equal(result.retainedCharacters,24000);assert.equal(result.sources[1].excerpt.length,4000);assert.equal(result.estimatedTokens,6000);assert.equal(result.rawCharacters,40000);assert.equal(result.truncated,true);});
+test('chat bounds upstream request and downstream evidence, including extra results',()=>{const request=buildSearch('brunch','chat','SG');assert.equal(request.numResults,5);assert.equal(request.contents.highlights,true);const result=budgetEvidence(Array.from({length:8},()=>({excerpt:'x'.repeat(10000)})),'chat');assert.equal(result.sources.length,5);assert.equal(result.retainedCharacters,24000);assert.equal(result.estimatedTokens,6000);});
+test('short sources stay intact and input is not mutated',()=>{const sources=[{excerpt:'hello',url:'https://example.com'}];assert.deepEqual(budgetEvidence(sources,'chat').sources,sources);assert.equal(budgetEvidence([],'plan').estimatedTokens,0);assert.equal(budgetEvidence(sources,'chat').truncated,false);});
+test('unicode truncation preserves complete surrogate pairs',()=>{const result=budgetEvidence([{excerpt:'x'.repeat(23999)+'😀'}],'chat');assert.equal(result.retainedCharacters,23999);assert.equal(result.sources[0].excerpt.endsWith('x'),true);});

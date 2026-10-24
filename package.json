@@ -1,1 +1,26 @@
-{"name":"hal","version":"0.1.0","private":true,"scripts":{"dev":"next dev","build":"next build","start":"next start","test":"node --test tests/*.test.mjs"},"dependencies":{"next":"latest","react":"latest","react-dom":"latest","lucide-react":"latest","react-markdown":"latest"},"devDependencies":{"typescript":"latest","@types/node":"latest","@types/react":"latest","@types/react-dom":"latest"}}
+{
+  "name": "hal",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node --test tests/*.test.mjs",
+    "setup:voice": "node scripts/setup-elevenlabs.mjs"
+  },
+  "dependencies": {
+    "@elevenlabs/client": "^1.30.0",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-markdown": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "typescript": "latest"
+  }
+}

@@ -1,57 +1,73 @@
 # Hal
 
-A working Halcyon interview demo built with Next.js, React, and Exa. Chat is a short-answer experience; Plan is a deeper research experience with three free demo runs and a simulated Hal+ upgrade.
+A Next.js demo with short Chat answers, hands-free voice, and deeper Plan research.
 
-## Run locally
+## iPhone demo
 
-```sh
-npm ci
-cp .env.example .env.local
-npm run dev
-```
+| Hal Chat | Hal Voice | Hal+ Plan |
+| --- | --- | --- |
+| <img src="docs/screenshots/hal-chat.png" width="250" alt="Hal Chat on iPhone"> | <img src="docs/screenshots/hal-voice.png" width="250" alt="Hal Voice on iPhone"> | <img src="docs/screenshots/hal-plan.png" width="250" alt="Hal Plus Plan on iPhone"> |
 
-Open http://localhost:3000. No key is needed for sample mode. Add `EXA_API_KEY` to `.env.local` and restart for live Exa responses. Never use a `NEXT_PUBLIC_` variable for credentials.
+Presentation screenshots. Chat and Voice timings are illustrative demo timings, not benchmark measurements. Screenshots may reflect earlier result counts.
 
-## Vercel
+## Current search defaults
 
-The repository is ready for the existing Vercel Git integration. Use Next.js framework detection and the repository root. `vercel.json` selects Singapore (`sin1`) for server functions. Add `EXA_API_KEY` in Vercel's environment settings and redeploy. Optionally set `HAL_ACCESS_CODE` and enter the same code in the app's demo settings. Without a key the site remains a working sample demo.
+| Mode | Exa search type | Results | Highlights |
+| --- | --- | --- | --- |
+| Chat | `lite` | 5 | `true` |
+| Voice | `lite` | 4 | `true` |
+| Plan | `deep` | 10 | `true` |
 
-## Walkthrough
+Browser favicon: `app/icon.png`. iPhone home-screen icon: `app/apple-icon.png`. Original app icon: `public/brand/hal-app-icon.png`. Next.js supplies the icon metadata links automatically.
 
-- Both modes share the selected location. Use the location button for consented device location or the country flags for quick switching; Vercel IP location supplies an initial fallback.
-- Click Chat/Plan, press left/right arrows outside an input, or swipe across the content area.
-- Complete three Plan requests: the counter moves 3 → 2 → 1 → 0. The fourth opens the upgrade sheet. Errors and cancellations do not consume runs. Existing results remain visible.
-- The upgrade button simulates Hal+; it takes no payment.
-- Open Profile → Settings → Demo controls for country selection, the live-search access code, and Reset demo.
-- The UI defaults to Singapore and English and requests browser location on load. Country sets the default answer language: SG English, PH Tagalog, MY Malay, ID Indonesian, TH Thai; other countries use English. If permission is unavailable, the current default remains. Demo controls allow manual country selection.
-- New conversation clears the current mode's on-device transcript; switching modes preserves it. Transcripts and the demo allowance persist in localStorage.
-- Voice uses browser speech recognition where supported; it requires browser microphone permission.
+## Local setup
 
-## Exa integration
+Install dependencies with `npm ci`. Add `EXA_API_KEY` and `ELEVENLABS_API_KEY` to the ignored `.env.local` file, then run `npm run setup:voice`. The setup creates a private ElevenLabs agent and an Exa webhook tool, stores the Exa key as a workspace secret, and saves the agent/tool IDs locally. Existing IDs are reused on reruns. Start with `npm run dev` and open http://localhost:3000.
 
-`app/api/hal/route.ts` keeps the key server-side. Both modes call `/search` with Dynamic Highlights and `outputSchema`. Chat uses `auto`, Plan uses `deep`. Exa supplies the synthesized answer and field-level grounding; the UI links the citations returned by grounding. No second model key is required. User location is included as context while explicit destination names take precedence.
+Never prefix credentials with `NEXT_PUBLIC_`. The browser receives only a short-lived signed conversation URL. Local development skips the demo access code; hosted ElevenLabs sessions require `HAL_ACCESS_CODE`.
 
-References: [Dynamic Highlights](https://exa.ai/docs/search/highlights), [Deep Search and synthesis](https://exa.ai/docs/search/deep-search).
+## Chat and voice
 
-Search details display measured API + synthesis time, returned API cost when available, and highlight tokens estimated as characters / 4. These are not benchmark scores, true tokenizer counts, or proof of Halcyon's end-to-end latency targets. Sample content is labelled and never substituted for a failed live request.
+Both use the ElevenLabs agent, configured with Claude Haiku 4.5. No Gemini key or generation code is used. Typed Chat opens a text-only session; the phone button opens an audio conversation with ElevenLabs transcription, turn detection and speech. Microphone permission is required. Muting pauses microphone input; hanging up ends the session. Voice transcripts remain in Chat. Typed answers retain a browser speech-synthesis Listen button.
 
-## Validation
+The agent uses Exa `/search` with `type: lite`: Chat requests 5 results and Voice requests 4, both with `contents.highlights: true`. Do not set `contents.maxAgeHours` for Lite: the live Exa API rejects this combination (verified 24 October 2026). Selected city/country/language are supplied as dynamic context; explicit destinations take precedence. Exa results are untrusted evidence, not instructions. Sources and bold Search latency are shown when provided by the tool response. This latency is Exa's reported search processing time, not total network, generation or speech delay. Real-device voice latency requires separate measurement.
 
-```sh
-npm test
-npm run build
-```
+See [Exa's ElevenLabs integration](https://exa.ai/docs/integrations/elevenlabs).
 
-Tests cover the allowance boundary, URL sanitization, and intent/location routing. Live Exa calls require credentials and have not been validated without a key. The benchmark pack is not copied into this public app repo, and no improved evaluation scores are claimed.
+## Plan
 
-## Demo boundaries
+`app/api/hal/route.ts` calls Exa Deep on the server. Returned highlights are locally capped to 24,000 characters (roughly 6,000 estimated tokens at four characters per token). This does not constrain Exa's internal generation context. Plan has three free demo runs and a simulated Hal+ upgrade; no payment is taken.
 
-This is a presentation prototype, not production billing or entitlement enforcement. Allowance and upgrade are client-side and resettable. The API has a best-effort per-instance rate limiter (10 requests/minute/IP), request validation, a 55-second timeout, and an optional access code. For public paid-API use, configure Vercel rate limiting and provider spend limits; distributed enforcement and account-based entitlements are still needed. There is no shared conversation memory sent to Exa: each live request is currently standalone. SG and PH have tailored demo copy; live answer language follows the detected country.
+## Location and interface
 
-## Local location controls
+Singapore is the fallback. Hal requests browser location on load; remembered browser grants/denials determine whether a permission prompt appears. Coordinates go to BigDataCloud's reverse geocoder; known city/country and supplied coordinates are retained for search context. Country selection beside the profile changes the default language and resets the chat. Profile contains membership settings. Hal uses teal; Hal+ uses champagne.
 
-On page load Hal requests location directly through the browser permission flow. The location chip retries it. Browsers remember grants/denials, so a native prompt may not appear again. Singapore is the fallback. With consent, the browser sends current coordinates directly to BigDataCloud's free client-side reverse geocoder. BigDataCloud uses location/network signals to improve its geolocation data. Hal retains only the resulting city/country in component state; it neither persists precise coordinates nor sends them to Exa. Denial, timeout and geocoder failures preserve the previous selection. Country flags override both modes and clear a previous city. An in-flight GPS lookup cannot overwrite a newer country selection.
+## Deployment
 
-Country toggles update greeting, prompts and voice recognition language. Live Exa receives the selected country/city and answer language. Sample answers are still fixtures, not live localized search results. No location override is persisted across reloads.
+`vercel.json` selects Singapore (`sin1`) for app server functions. This does not determine ElevenLabs' or Exa's infrastructure region. Configure `EXA_API_KEY`, `ELEVENLABS_API_KEY`, `ELEVENLABS_AGENT_ID` and `HAL_ACCESS_CODE` in Vercel, then redeploy. The ElevenLabs workspace tool already holds its Exa secret.
 
-For local Exa testing, save `EXA_API_KEY` in the gitignored `.env.local`, restart `npm run dev` if required, then reload the app. Live mode enables automatically when the server reports a key. No API key is accepted or exposed in browser UI. Test with a non-sensitive query before using personal requests.
+## Validation and limits
+
+Run `npm test` and `npm run build`. Membership is client-side demo state, not production billing. Rate limits are per-process rather than distributed. Historical benchmark outputs describe the previous pipeline and are not measurements of this ElevenLabs integration. Live microphone and audible response checks must be performed on the target device.
+
+### Chat and Voice retrieval profiles
+
+Both use Exa Lite. Chat requests 5 results; Voice requests 4. Both use `contents.highlights: true`. Plan uses Exa Deep with 10 results and the same highlights setting. No beta header is required. The selected country is bound to `userLocation`; city stays in the query context. `lib/search-profiles.mjs` supplies numeric ElevenLabs session variables, which the shared webhook binds directly instead of asking the LLM to choose these parameters.
+
+Existing ElevenLabs setups can apply tool bindings/defaults with `node scripts/update-search-profiles.mjs`. It preserves other agent configuration and updates the local version pin. New sessions are required. Local client changes need deployment before hosted clients send the Chat-specific profile; defaults use the smaller Voice profile.
+
+`node scripts/verify-search-profiles.mjs` tests both retrieval profiles via text-only ElevenLabs sessions (not a microphone/audio test). Live verification returned five and four sources respectively. Automatic highlights vary in length. The local retained-evidence budget is 24,000 characters (approximately 6,000 tokens); this is not a cap on Exa internal synthesis or the ElevenLabs tool response received by its agent.
+
+### Task-specific Exa objectives
+
+Plan and the fallback Chat search use `lib/search-objective.mjs` to prioritise evidence appropriate to the query. The ElevenLabs Chat/Voice tool generates a short per-request objective using the same guidance. Location must not be treated as nationality. Existing Lite/Deep modes and result budgets are unchanged. Run `node scripts/update-search-profiles.mjs` to update the shared remote tool; that change also affects other clients using it, even before a Vercel deployment.
+
+`benchmarks/plan/objectives.mjs` compares baseline, objective, and objective plus official-domain filters on visa and housing questions. Results and review are in `benchmarks/plan/objective-results.json`: visa 20.286 / 17.390 / 18.100 seconds; housing 17.377 / 14.765 / 15.766 seconds. Exa reported US$0.012 per call (US$0.072 total), excluding any external model or voice costs. Each is a single sample, with variants run concurrently, not a p95 or evidence of causal speed improvement. The filtered housing answer still used an unhelpful universal maximum instead of resolving the supplied income tier. Filters remain benchmark-only; official domains do not guarantee correct synthesis. Source checks were selective, not a full citation audit.
+
+### Answer feedback / observability
+
+Each completed answer has Helpful / Unhelpful controls under Sources. A second click removes the vote; the other thumb replaces it. Saved votes persist on this browser. The UI only acknowledges successful server responses and allows retry on errors.
+
+`POST /api/feedback` emits `hal.answer_feedback` JSON events with response ID, rating (`up`, `down`, or `null` for removal), mode (Chat, Voice, Plan), Exa request ID where available, search type, client-reported latency/token estimates and source domains. New voice turns retain their channel; older saved voice turns cannot be distinguished from Chat. Raw prompts, answers, credentials and complete source URLs are excluded. The endpoint validates and allowlists fields, applies the existing demo access/origin policy, and has a per-instance rate limit. These are user-supplied ratings/measurements, not trusted billing or audited provider metrics.
+
+Local development also appends events to `.data/feedback.jsonl` (gitignored). Production emits structured server logs only: configure a log drain or observability store for durable retention and dashboards. No external analytics provider has been connected. Aggregate by responseId using the latest receivedAt event; null removes the rating. Do not count vote changes as additional answers. This is browser-local, unauthenticated demo feedback, not a verified unique-user voting system.
