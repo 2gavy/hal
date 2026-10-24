@@ -300,4 +300,8 @@ body{position:fixed;inset:0}
 .send.is-working{position:relative}
 .send-spinner{position:absolute;inset:7px;border:3px solid currentColor;border-right-color:transparent;border-bottom-color:transparent;border-radius:50%;animation:spin .8s linear infinite;pointer-events:none}
 .input-row .send .send-stop{width:12px;height:12px;fill:currentColor;pointer-events:none}
-@media(prefers-reduced-motion:reduce){.send-spinner{animation:none}}
+/* Keep essential request feedback visible, including iOS Reduce Motion.
+   Decorative motion remains disabled by the global accessibility rule. */
+@media(prefers-reduced-motion:reduce){
+  .send-spinner,.thinking>.spin{animation:spin 1.6s linear infinite!important}
+}
