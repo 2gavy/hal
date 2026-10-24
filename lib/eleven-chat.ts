@@ -1,10 +1,11 @@
+import {createChatStream} from './chat-stream.mjs';
 import {locationVariables} from '@/lib/location.mjs';
 import {searchVariables} from '@/lib/search-profiles.mjs';
 import {displayAnswer} from './display-answer.mjs';
 import {Conversation,type Conversation as Session} from '@elevenlabs/client';
 import {parseElevenEvidence} from './eleven-evidence.mjs';
-export async function elevenChat(query:string,access:string,location:{city:string;country:string|null;language:string;latitude?:number;longitude?:number},signal:AbortSignal,history:{query:string;answer:string}[]=[]){
- const started=performance.now();
+export async function elevenChat(query:string,access:string,location:{city:string;country:string|null;language:string;latitude?:number;longitude?:number},signal:AbortSignal,history:{query:string;answer:string}[]=[],onProgress?:(update:{stage:'connecting'|'searching'|'writing';answer?:string})=>void){
+ const started=performance.now();onProgress?.({stage:'connecting'});const stream=createChatStream();
  const response=await fetch('/api/voice/session',{method:'POST',headers:{'x-hal-access':access},signal});
  const data=await response.json();if(!response.ok)throw Object.assign(new Error(data.error||'Chat connection failed.'),{status:response.status});
  return new Promise<any>((resolve,reject)=>{
@@ -15,9 +16,10 @@ export async function elevenChat(query:string,access:string,location:{city:strin
   const timer=setTimeout(()=>finish(new Error('Hal took too long. Please try again.')),45000);
   signal.addEventListener('abort',cancel,{once:true});if(signal.aborted){cancel();return;}
   void Conversation.startSession({signedUrl:data.signedUrl,connectionType:'websocket',textOnly:true,dynamicVariables:{...locationVariables(location),...searchVariables('chat'),city:location.city||location.country||'Singapore',country:location.country||'SG',language:location.language},
-   onAgentToolRequest:event=>{if(event.tool_name==='web_search'){searchPending=true;clearTimeout(answerTimer);}},
-   onAgentToolResponse:event=>{if(event.tool_name==='web_search'){searchPending=false;searchComplete=true;}const parsed=parseElevenEvidence(event);if(parsed)evidence=parsed;},
-   onMessage:message=>{if(message.source==='ai'&&!searchPending&&message.message.trim()){clearTimeout(answerTimer);if(searchComplete)finish(undefined,message.message);else answerTimer=setTimeout(()=>finish(undefined,message.message),1000);}},
+   onAgentToolRequest:event=>{if(finished)return;if(event.tool_name==='web_search'){searchPending=true;stream.reset();onProgress?.({stage:'searching',answer:''});clearTimeout(answerTimer);}},
+   onAgentToolResponse:event=>{if(finished)return;if(event.tool_name==='web_search'){searchPending=false;searchComplete=true;onProgress?.({stage:'writing'});}const parsed=parseElevenEvidence(event);if(parsed)evidence=parsed;},
+   onAgentChatResponsePart:part=>{if(finished||searchPending)return;const answer=stream.push(part);if(answer)onProgress?.({stage:'writing',answer:displayAnswer(answer)});},
+   onMessage:message=>{if(!finished&&message.source==='ai'&&!searchPending&&message.message.trim()){clearTimeout(answerTimer);if(searchComplete)finish(undefined,message.message);else answerTimer=setTimeout(()=>finish(undefined,message.message),1000);}},
    onError:()=>finish(new Error('Chat connection failed. Please try again.')),
    onDisconnect:()=>{if(!finished)finish(new Error('Chat disconnected before the answer arrived.'));}
   }).then(active=>{session=active;if(finished){void active.endSession();return;}if(history.length)active.sendContextualUpdate(`Previous conversation for context only: ${JSON.stringify(history.slice(-6))}`);active.sendUserMessage(query);}).catch(error=>finish(error));

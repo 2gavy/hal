@@ -295,3 +295,8 @@ body{position:fixed;inset:0}
   .stage{display:flex;padding:0 env(safe-area-inset-right) 0 env(safe-area-inset-left)}
   .app-shell{width:min(530px,100%);max-width:530px;max-height:none;border-radius:0}
 }
+
+/* Keep Stop available while the ring indicates an active Chat or Plan request. */
+.send.is-working{position:relative}
+.send.is-working::after{content:"";position:absolute;inset:-4px;border:2px solid var(--teal);border-right-color:transparent;border-bottom-color:transparent;border-radius:50%;animation:spin .9s linear infinite;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.send.is-working::after{animation:none}}
