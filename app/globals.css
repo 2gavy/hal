@@ -264,3 +264,34 @@ body{position:fixed;inset:0}
   .header{padding-top:calc(4.3cqw + env(safe-area-inset-top))}
   .input-row textarea,.sheet input,.sheet select{font-size:16px}
 }
+
+/* Small phones, long answers and the space above the software keyboard. */
+.app-shell{container-type:size}
+.markdown,.user-message p,.sources a span,.voice-transcript,.voice-notice{overflow-wrap:anywhere}
+.sources a span{min-width:0}
+.sources a svg{flex-shrink:0}
+.markdown pre{max-width:100%;overflow-x:auto}
+.welcome h1{white-space:normal}
+.country-popover{max-height:calc(var(--app-height,100dvh) - 4.3cqw - 66px - env(safe-area-inset-top));overflow-y:auto;overscroll-behavior:contain}
+.input-row textarea{max-height:max(44px,calc(var(--app-height,100dvh)*.22));overflow-y:auto!important}
+.voice-screen{overflow-y:auto;overscroll-behavior:contain}
+.voice-top,.voice-bottom{flex-shrink:0}
+.voice-top{padding-top:calc(6cqw + env(safe-area-inset-top))}
+.voice-center,.voice-screen.has-voice-results .voice-center{flex:1 0 auto;padding:12px 0}
+.voice-bottom input{max-width:100%;min-width:0;font-size:16px}
+@container (max-height:500px){
+  .header{padding-top:calc(8px + env(safe-area-inset-top))}
+  .bottom{padding-top:6px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+  .switch.voice-dock{height:38px;margin-top:18px}
+  .quota{margin-bottom:6px;padding-top:5px;padding-bottom:5px}
+  .voice-top{padding-top:calc(10px + env(safe-area-inset-top));padding-bottom:8px}
+  .voice-center,.voice-screen.has-voice-results .voice-center{flex:0 0 auto;gap:8px;padding:8px 16px}
+  .voice-orb{display:none}
+  .voice-bottom,.has-voice-results .voice-bottom{padding-top:8px;padding-bottom:max(10px,env(safe-area-inset-bottom));margin-top:auto}
+  .voice-controls{margin:8px 0}
+  .voice-evidence{max-height:none;flex-shrink:0}
+}
+@media (min-width:541px) and (max-height:540px){
+  .stage{display:flex;padding:0 env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+  .app-shell{width:min(530px,100%);max-width:530px;max-height:none;border-radius:0}
+}
