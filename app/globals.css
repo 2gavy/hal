@@ -296,7 +296,8 @@ body{position:fixed;inset:0}
   .app-shell{width:min(530px,100%);max-width:530px;max-height:none;border-radius:0}
 }
 
-/* Keep Stop available while the ring indicates an active Chat or Plan request. */
+/* A high-contrast loading ring stays inside the button, away from clipping edges. */
 .send.is-working{position:relative}
-.send.is-working::after{content:"";position:absolute;inset:-4px;border:2px solid var(--teal);border-right-color:transparent;border-bottom-color:transparent;border-radius:50%;animation:spin .9s linear infinite;pointer-events:none}
-@media(prefers-reduced-motion:reduce){.send.is-working::after{animation:none}}
+.send-spinner{position:absolute;inset:7px;border:3px solid currentColor;border-right-color:transparent;border-bottom-color:transparent;border-radius:50%;animation:spin .8s linear infinite;pointer-events:none}
+.input-row .send .send-stop{width:12px;height:12px;fill:currentColor;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.send-spinner{animation:none}}
