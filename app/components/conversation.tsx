@@ -20,6 +20,7 @@ import type { Mode, Turn, HalLocation, PartialAnswer, ChatStage } from '@/lib/ha
 import AnswerFeedback from './answer-feedback';
 import { AnswerTimings } from './answer-actions';
 import MapShortcuts from './map-shortcuts';
+import PlanSearchFact from './plan-search-fact';
 type Props = {
   mode: Mode;
   turns: Record<Mode, Turn[]>;
@@ -247,17 +248,17 @@ export default function Conversation({
                     ? 'Searching the web…'
                     : 'Writing your answer…'}
             </strong>
-            <span>
+            {mode === 'plan' && !partial?.answer ? (
+              <PlanSearchFact key={activeQuery} country={location.country} query={activeQuery} />
+            ) : <span>
               {partial?.answer
                 ? 'Answer arriving live…'
-                : mode === 'plan'
-                  ? 'Searching the web and preparing your plan'
-                  : chatStage === 'connecting'
+                : chatStage === 'connecting'
                     ? 'Getting ready…'
                     : chatStage === 'searching'
                       ? 'Looking for relevant sources'
                       : 'Preparing your reply…'}
-            </span>
+            </span>}
             {mode === 'plan' && (
               <div className="progress">
                 <i />

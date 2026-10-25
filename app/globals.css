@@ -323,3 +323,6 @@ body{position:fixed;inset:0}
 .feedback-reason-actions button{border:0;border-radius:20px;padding:9px 13px;font:inherit;font-size:12px;cursor:pointer;background:var(--line);color:inherit}
 .feedback-reason-actions button[type=submit]{background:var(--teal);color:white}
 .feedback-reason-actions button:disabled{opacity:.5;cursor:default}
+
+/* Reserve room for rotating Plan facts so the progress bar stays steady. */
+.thinking .plan-search-fact{max-width:300px;min-height:4.5em;line-height:1.5;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
