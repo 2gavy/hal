@@ -1,22 +1,34 @@
 # Code walkthrough
 
-## 1. App — show these in order
+## 1. App — layout → controller → provider
 
 Run `npm run dev` from `hal`, then open http://localhost:3000.
 
-| Open | Point to | Say |
-| --- | --- | --- |
-| `lib/search-profiles.mjs` | `SEARCH_PROFILES` | “Chat returns 5 results, Voice 4, Plan 10. All request highlights.” |
-| `lib/logic.mjs` | `buildSearch()` | “We include the question, location and objective. Plan uses Deep; Chat and Voice use Lite.” |
-| `app/api/hal/route.ts` | `fetch('https://api.exa.ai/search', ...)` | “Here is the Plan API call. The Exa key stays on the server.” |
-| Same file | `resultFor()` | “We return the answer, cited sources and timing to the app.” |
+| Open | Say |
+| --- | --- |
+| `app/page.tsx` | “This only assembles the screen and connects components to actions.” |
+| `app/components/conversation.tsx` and `composer.tsx` | “The conversation displays results; the composer handles input. Neither calls an API.” |
+| `app/hooks/use-hal.ts` → `send()` | “This coordinates requests, cancellation and conversation state.” |
+| `lib/plan-client.mjs` → `app/api/hal/route.ts` | “Plan goes through our server, where the Exa key stays private.” |
+| `lib/logic.mjs` → `buildSearch()` | “This builds the Exa request: question, location, objective and highlights.” |
+| `lib/search-profiles.mjs` | “Chat gets 5 results, Voice 4, Plan 10.” |
 
-For Chat/Voice, explain: **Hal → ElevenLabs → Exa Lite → answer.**
-Only open `scripts/setup-elevenlabs.mjs` if asked how the tool is connected:
-`web_search` points to the same Exa search endpoint.
+Chat uses `lib/eleven-chat.ts`; Voice uses `app/components/eleven-voice.tsx`.
+Both connect through ElevenLabs, whose `web_search` tool calls Exa Lite.
+Plan calls Exa Deep through the server route.
 
-Show `.env.example` to explain where keys go. Keep the real `.env.local` closed.
-Skip the UI markup, authentication and streaming internals during the walkthrough.
+**Why the split:** “I can change the UI without changing search, or change a
+provider without rewriting the conversation display.”
+
+Other focused files:
+
+- `hal-header.tsx`: country menu and profile button.
+- `account-dialogs.tsx`: membership/access dialogs and focus handling.
+- `use-hal-location.ts`: device location and reverse geocoding.
+- `lib/hal-types.ts`: shared conversation and response types.
+
+Show `.env.example` for key setup; keep the real `.env.local` closed.
+Skip the dialog and location internals unless asked.
 
 ## 2. Judging — input → Gemini → score
 
