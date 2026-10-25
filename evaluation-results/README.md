@@ -26,9 +26,9 @@ FT means **Exa API configuration**, not model-weight fine-tuning. Baseline quali
 | Quick questions: average score | 3.75 | 3.39 | 3.00 | 4.82 |
 | Plan: average score | 3.75 | 3.17 | 2.83 | 3.83 |
 | Questions scoring 4 or 5 (out of 40) | 29 | 13 | 16 | 34 |
-| Quick search p50 (ms) | 650 | 687 | 1,267 | 355 |
+| Quick search p50 (ms) | 651 | 687 | 1,267 | 355 |
 | Quick search p95 (ms) | 1,084 | 959 | 2,431 | 392 |
-| Voice search p50 (ms) | 682 | 660 | 1,337 | 345 |
+| Voice search p50 (ms) | 683 | 661 | 1,337 | 345 |
 | Plan search p50 (seconds) | 37.8 | 6.1 | 1.9 | 12.1 |
 | Raw context tokens per quick search | 2,355 | 1,921 | 22,263 | 3,039 |
 | Modeled monthly cost (USD) | $388k | $308k | $584k | $332k |
