@@ -14,7 +14,7 @@ FT means **Exa API configuration**, not model-weight fine-tuning. Baseline quali
 ## Files and source versions
 
 - [FT comparison report](Search%20provider%20comparison%20FT%20-%20Oct%202026.pdf): presentation report, including API examples and evaluation-script instructions.
-- [Evaluation workbook](results_exa_fine_tune.xlsx): updated to match all 40 FT rows below, including scores, judge notes, search metrics, costs, actual questions and user locations.
+- [Evaluation workbook](results_exa_fine_tune.xlsx): direct Excel export of the Google Sheet, downloaded on 25 October 2026. Preserves its existing tabs, columns and charts; questions and locations are in the queries tab.
 - The workbook, tables and charts use the **same saved 40-row snapshot that generated the FT report**. The workbook was synchronised on 25 October 2026; no searches or judging were rerun.
 - Current app defaults are Chat 5, Voice 4, Plan 10 results with `highlights: true`. Historical run settings varied; these are historical results, not a fresh benchmark of the current defaults.
 
