@@ -76,45 +76,45 @@ Assumptions: 40M quick searches/month, split 75% Chat and 25% Voice; 600k Plan r
 
 Scores evaluate retrieved evidence. Search time is Exa server searchTime in milliseconds; cost is the recorded search cost per request.
 
-| Query | Intent | Mode | Score / 5 | Search ms | Tokens used | Search USD |
-| --- | --- | --- | --- | --- | --- | --- |
-| q01 | Local | Chat | 5 | 373.6 | 4,558 | $0.0040 |
-| q02 | Local | Chat | 5 | 380.9 | 4,503 | $0.0040 |
-| q03 | Local | Voice | 5 | 380.1 | 1,553 | $0.0040 |
-| q04 | Local | Chat | 5 | 392.6 | 4,501 | $0.0040 |
-| q05 | Local | Chat | 5 | 385.0 | 4,504 | $0.0040 |
-| q06 | Local | Voice | 5 | 371.9 | 1,513 | $0.0040 |
-| q07 | Local | Chat | 4 | 361.5 | 4,503 | $0.0040 |
-| q08 | News | Chat | 5 | 294.9 | 3,072 | $0.0040 |
-| q09 | News | Chat | 5 | 324.9 | 3,170 | $0.0040 |
-| q10 | News | Voice | 5 | 333.3 | 1,429 | $0.0040 |
-| q11 | News | Voice | 5 | 356.8 | 1,563 | $0.0040 |
-| q12 | News | Chat | 5 | 335.4 | 3,742 | $0.0040 |
-| q13 | Travel | Chat | 5 | 318.7 | 2,285 | $0.0040 |
-| q14 | Travel | Chat | 5 | 352.6 | 3,644 | $0.0040 |
-| q15 | Travel | Voice | 5 | 322.9 | 1,501 | $0.0040 |
-| q16 | Travel | Chat | 5 | 326.1 | 3,507 | $0.0040 |
-| q17 | Travel | Chat | 5 | 390.1 | 2,817 | $0.0040 |
-| q18 | Travel | Voice | 5 | 340.1 | 1,501 | $0.0040 |
-| q19 | Shopping | Chat | 5 | 398.8 | 4,510 | $0.0040 |
-| q20 | Shopping | Chat | 5 | 357.0 | 3,171 | $0.0040 |
-| q21 | Shopping | Chat | 5 | 378.0 | 4,566 | $0.0040 |
-| q22 | Shopping | Voice | 5 | 340.6 | 1,500 | $0.0040 |
-| q23 | General | Chat | 5 | 346.2 | 4,554 | $0.0040 |
-| q24 | General | Chat | 5 | 390.8 | 3,844 | $0.0040 |
-| q25 | General | Chat | 5 | 328.6 | 4,502 | $0.0040 |
-| q26 | General | Voice | 5 | 324.5 | 1,501 | $0.0040 |
-| q27 | General | Voice | 5 | 350.1 | 1,566 | $0.0040 |
-| q28 | General | Voice | 1 | 362.8 | 1,501 | $0.0040 |
-| q29 | Plan | Plan | 3 | 21,663.2 | 3,002 | $0.0120 |
-| q30 | Plan | Plan | 3 | 13,768.8 | 3,004 | $0.0120 |
-| q31 | Plan | Plan | 2 | 15,232.3 | 3,003 | $0.0120 |
-| q32 | Plan | Plan | 5 | 15,138.7 | 3,003 | $0.0120 |
-| q33 | Plan | Plan | 5 | 8,287.2 | 3,003 | $0.0120 |
-| q34 | Plan | Plan | 5 | 10,505.6 | 3,002 | $0.0120 |
-| q35 | Plan | Plan | 3 | 14,086.4 | 3,001 | $0.0120 |
-| q36 | Plan | Plan | 4 | 14,686.1 | 3,004 | $0.0120 |
-| q37 | Plan | Plan | 5 | 8,485.9 | 2,834 | $0.0120 |
-| q38 | Plan | Plan | 4 | 8,034.1 | 2,627 | $0.0120 |
-| q39 | Plan | Plan | 3 | 4,096.8 | 3,002 | $0.0120 |
-| q40 | Plan | Plan | 4 | 7,588.2 | 2,833 | $0.0120 |
+| Query | Intent | Mode | Score / 5 | Search ms | Tokens used | Search USD | judge_note |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| q01 | Local | Chat | 5 | 373.6 | 4,558 | $0.0040 | Evidence identifies Sin Xiong Noodle House located at Hoe Chiang Road near Tanjong Pagar MRT, which serves traditional laksa and is open late (Mon-Sat until 11:59 pm). Other local laksa options and late-night spots are also detailed. |
+| q02 | Local | Chat | 5 | 380.9 | 4,503 | $0.0040 | The evidence provides multiple specific local char kway teow stalls in George Town avoiding typical tourist traps (e.g., Barefoot CKT at Cecil Street Market, No. 5 Char Koay Teow, Heng Kee on Presgrave Street, FirYan, and 850 Char Koay Teow) complete with locations, timings, and local reviews. |
+| q03 | Local | Voice | 5 | 380.1 | 1,553 | $0.0040 | The retrieved evidence provides multiple highly rated brunch spots in Bangsar, Kuala Lumpur (e.g., Antipodean Cafe, Alta Café, Plump, Breakfast Thieves, Nutmeg) with addresses, vibe descriptions, and menu highlights. |
+| q04 | Local | Chat | 5 | 392.6 | 4,501 | $0.0040 | Excellent coverage directly matching the prompt constraints. Provides varied indoor, kid-friendly rainy-day options in/near BGC (The Mind Museum, ActiveFun BGC, Kidzooona / Kids Box Mitsukoshi, Wetpark Adventure Lagoon, and WiiJump) with locations, activities, hours, and pricing. |
+| q05 | Local | Chat | 5 | 385.0 | 4,504 | $0.0040 | The evidence provides multiple specific vegetarian and vegan restaurants in and around Ari, Bangkok (e.g., Bamboo Garden Healthy Vegetarian Foods, O'ganic Concept ARI, Lust Ramen @Ari vegan menu, Jones' Salad, Aroi Ari), complete with locations and details. |
+| q06 | Local | Voice | 5 | 371.9 | 1,513 | $0.0040 | Evidence confirms the nearest polyclinic in Punggol is SingHealth Polyclinics - Punggol at Oasis Terraces, along with its specific operating hours (Mon-Fri 8 AM-1 PM, Sat 8 AM-12:30 PM, closed Sunday). |
+| q07 | Local | Chat | 4 | 361.5 | 4,503 | $0.0040 | The query asks for '点心' (dim sum / snacks / desserts). The results provide a dim sum option (Hong Kong Dim Sum Shop on Liang Seah St) and numerous traditional/modern dessert & snack places (Ah Chew Dessert, Yat Ka Yan, Dessert First, Ji Xiang Ang Ku Kueh) in Bugis. |
+| q08 | News | Chat | 5 | 294.9 | 3,072 | $0.0040 | The retrieved evidence provides clear, authoritative, and up-to-date reporting showing that in Budget 2027 (announced October 2026), the Malaysian government decided to raise the minimum wage from RM1,700 to RM2,000 effective June 2027. |
+| q09 | News | Chat | 5 | 324.9 | 3,170 | $0.0040 | The retrieved articles provide the latest official updates (from October 2026) regarding the RTS Link opening date, noting passenger service is now targeted for February 2027 subject to final safety certifications and regulatory approvals. |
+| q10 | News | Voice | 5 | 333.3 | 1,429 | $0.0040 | The evidence directly confirms that Max Verstappen won the most recent Singapore Grand Prix on October 11, 2026, satisfying all aspects of the query. |
+| q11 | News | Voice | 5 | 356.8 | 1,563 | $0.0040 | Evidence includes the official Budget 2027 speech and detailed reporting covering key student initiatives: RM2,500 Form Six allowance, RM200 Bantuan Awal Persekolahan, RM870m food programme, RM750m student housing, and RM5 meals. |
+| q12 | News | Chat | 5 | 335.4 | 3,742 | $0.0040 | Comprehensive current evidence provides updated fuel prices for Pertamina as of October 24, 2026 across Indonesia including Jawa Timur/Surabaya (Pertalite, Biosolar, Pertamax series, Dexlite, Pertamina Dex), fulfilling the query completely. |
+| q13 | Travel | Chat | 5 | 318.7 | 2,285 | $0.0040 | Evidence confirms that foreign nationals must submit the Thailand Digital Arrival Card (TDAC) online within 3 days prior to arrival starting May 1, 2025. |
+| q14 | Travel | Chat | 5 | 352.6 | 3,644 | $0.0040 | Authoritative evidence from the Chinese Embassy and consular notices shows ordinary Malaysian passport holders can stay visa-free for up to 30 days per entry (up to 90 days per 180-day period). |
+| q15 | Travel | Voice | 5 | 322.9 | 1,501 | $0.0040 | The evidence clearly indicates that the last MRT leaves around 23:18 / 00:06, making taxi, Grab, or private car the fastest option at 1am, taking approximately 20-30 minutes. |
+| q16 | Travel | Chat | 5 | 326.1 | 3,507 | $0.0040 | The retrieved evidence from the Singapore MFA and the Embassy / MOFA of Japan clearly confirms that Singapore passport holders do not require a visa for short-term visits to Japan (up to 90 days). |
+| q17 | Travel | Chat | 5 | 390.1 | 2,817 | $0.0040 | The evidence explicitly confirms that the GO Basic fare includes 7 kg hand-carry baggage (one overhead and one personal item) and no checked baggage (available only as a paid add-on). |
+| q18 | Travel | Voice | 5 | 340.1 | 1,501 | $0.0040 | The evidence comprehensively outlines options to get from KLIA to KL Sentral, including KLIA Ekspres (28 minutes), KLIA Transit (approx. 35 minutes), buses, and taxis/e-hailing. |
+| q19 | Shopping | Chat | 5 | 398.8 | 4,510 | $0.0040 | The evidence provides multiple specific models available in Singapore under S$150 with active noise cancelling and SGD prices (e.g., Soundcore Liberty 5 at S$99, Sony WF-C710N at S$109-148.80, Nothing Ear (a) at S$88-129, and Honor Earbuds 4 at S$78-99), backed by reviews and retailer listings in Singapore. |
+| q20 | Shopping | Chat | 5 | 357.0 | 3,171 | $0.0040 | The retrieved evidence provides official Apple Malaysia pricing (RM 4,299) as well as authorized and third-party retailer pricing across Malaysia/Shah Alam (e.g., Carousell at RM 3,599, CHN Shop at RM 3,959, DirectD at RM 3,999, Machines at RM 4,219). |
+| q21 | Shopping | Chat | 5 | 378.0 | 4,566 | $0.0040 | Evidence provides balanced reviews on whether the Dyson V15 is worth it, specific cheaper alternatives (Airbot from ~S$185.90, Shark cordless ~S$299, Samsung Bespoke Jet, V12/V8), and current Singapore pricing. |
+| q22 | Shopping | Voice | 5 | 340.6 | 1,500 | $0.0040 | Evidence specifically covers tourist SIMs available at Suvarnabhumi Airport arrivals hall from all three major operators (AIS, dtac, TrueMove H), including comparison guidance, current October 2026 pricing, and data allowances. |
+| q23 | General | Chat | 5 | 346.2 | 4,554 | $0.0040 | The evidence provides detailed, step-by-step recipes for making kaya at home, including required ingredients (eggs/yolks, coconut milk/cream, sugar, pandan leaves) and cooking techniques (such as using a double boiler or saucepan). |
+| q24 | General | Chat | 5 | 390.8 | 3,844 | $0.0040 | The evidence thoroughly explains the differences between CPF OA and SA, covering their purposes (housing/education/investments vs retirement), interest rates (2.5% vs 4% floor/up to 5%), and the closure of SA for members aged 55 and above. |
+| q25 | General | Chat | 5 | 328.6 | 4,502 | $0.0040 | The evidence explains how ERP 2.0 works using Global Navigation Satellite Systems (GNSS) via an On-Board Unit (OBU), the role of gantries during the transition phase, and the status of distance-based charging. |
+| q26 | General | Voice | 5 | 324.5 | 1,501 | $0.0040 | The retrieved evidence clearly provides the procedures for renewing a Singapore passport via ICA's online e-service, including photo requirements, processing times, fees, and collection options. |
+| q27 | General | Voice | 5 | 350.1 | 1,566 | $0.0040 | The evidence provides detailed, up-to-date current weather conditions and temperatures for Kuala Lumpur on the evaluation date. |
+| q28 | General | Voice | 1 | 362.8 | 1,501 | $0.0040 | The user prompt is a direct conversational command to set a reminder, but the retrieved web documents are generic guides/tutorials on how to set reminders in Siri or Reminders apps. |
+| q29 | Plan | Plan | 3 | 21,663.2 | 3,002 | $0.0120 | Evidence supports cheapest transport (overnight bus via KL/direct bus SGD 15-33) and multiple halal dining spots (The Lengkuas Cafe, Canning Dim Sum, The Table Penang). However, for indoor rainy-day activities, only The Top Penang is detailed; missing distinct indoor options for all 3 days. |
+| q30 | Plan | Plan | 3 | 13,768.8 | 3,004 | $0.0120 | Evidence covers CPF Family Grant ($80k for 4-room resale SC/SC), Proximity Housing Grant ($20k within 4km), HDB loan LTV (up to 75%), interest rate (2.6%), and MSR cap (30%). However, details and income bracket tiers for the Enhanced CPF Housing Grant (EHG) amount at S$9,000 monthly income are missing. |
+| q31 | Plan | Plan | 2 | 15,232.3 | 3,003 | $0.0120 | Evidence gives details for flight (costs, door-to-door transit) and train (ETS + Shuttle Tebrau + MRT/Woodlands, fares and travel times). However, direct bus from KL to Singapore is not detailed with specific prices or journey times to Orchard Road, preventing a complete 3-way comparison. |
+| q32 | Plan | Plan | 5 | 15,138.7 | 3,003 | $0.0120 | The evidence fully covers how to apply (JVAC / VFS Global), processing time (standard 5 working days, longer if checking needed), and comprehensive lists of required documents (passport, photo dimensions, application form, PSA certificates, bank certificate, ITR/Form 2316, COE, itinerary, guarantee letter). |
+| q33 | Plan | Plan | 5 | 8,287.2 | 3,003 | $0.0120 | Evidence contains details for multiple SIM-only plans with >=100GB data, including the cheapest options (e.g., Zero1 Starter Prime at S$7.06, CMLink 200GB at S$7.70, MyRepublic 4G Vibe at S$7.90, Circles Core at S$8.00) along with price, contract status (no contract), network, and 5G inclusion status. |
+| q34 | Plan | Plan | 5 | 10,505.6 | 3,002 | $0.0120 | The retrieved results provide authoritative information on top miles-earning cards for overseas spend (UOB PRVI Miles up to 3 mpd, StanChart Visa Infinite up to 3 mpd, UOB Visa Infinite Metal 3 mpd, DBS Vantage/Altitude 2.2 mpd), complete with exact earn rates, annual fees, and minimum income criteria. |
+| q35 | Plan | Plan | 3 | 14,086.4 | 3,001 | $0.0120 | Evidence confirms the Budget 2027 measure for Form 6 students: an RM2,500 living allowance matching matriculation rates. However, there is no evidence provided on how Form 6 students apply for or receive this newly announced allowance (only general pra-u admissions and old BKP/BAP scholarship info are shown). |
+| q36 | Plan | Plan | 4 | 14,686.1 | 3,004 | $0.0120 | There is ample evidence for Sunday dining options in/around Chiang Mai Old City (including Sunday Walking Street stalls, Huan Kung Kum, Huen Phen, Kuay Chap Sam Ka Sat, MALA BBQ), along with opening hours, dish recommendations, and rough prices in THB. Minor gaps exist around specific dish prices/details for a few individual named venues. |
+| q37 | Plan | Plan | 5 | 8,485.9 | 2,834 | $0.0120 | All requested details are fully backed by the evidence: the two Bib Gourmand hawker stalls at Tampines Round Market (Rajarani Thosai and Yi Pin Wei Braised Duck Kway Chap), their specific opening hours, and dishes to order. |
+| q38 | Plan | Plan | 4 | 8,034.1 | 2,627 | $0.0120 | Finds Indonesian laptop models under Rp10 million with specifications and prices. Exact current stock and like-for-like configurations need checking. |
+| q39 | Plan | Plan | 3 | 4,096.8 | 3,002 | $0.0120 | Official sources support stroller handling and Japan entry rules, but baggage highlights focus on infants rather than the requested two-year-old child. |
+| q40 | Plan | Plan | 4 | 7,588.2 | 2,833 | $0.0120 | Finds current RTS opening reports, unannounced fare status and official Shuttle Tebrau policy. End-to-end time savings remain estimates. |
