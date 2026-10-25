@@ -58,12 +58,14 @@ Search timing excludes answer generation and speech playback. These results cann
 
 ## Cost
 
+**Search API** includes provider calls for Chat, Voice and Plan. **LLM input** includes retrieved context sent to the answer model for Chat and Voice only; Plan model input is excluded.
+
 ![Monthly search and model input cost](charts/monthly-cost.png)
 
 | Monthly cost (USD) | Vendor B | Vendor C | Exa original | Exa FT |
 | --- | --- | --- | --- | --- |
-| Search | $270,000 | $212,000 | $284,200 | $167,200 |
-| Model input (quick only) | $117,611 | $96,360 | $299,956 | $164,645 |
+| Search API (Chat + Voice + Plan) | $270,000 | $212,000 | $284,200 | $167,200 |
+| LLM input (Chat + Voice only) | $117,611 | $96,360 | $299,956 | $164,645 |
 | Total | $387,611 | $308,360 | $584,156 | $331,845 |
 
 Assumptions: 40M quick searches/month, split 75% Chat and 25% Voice; 600k Plan requests/month separately. Model input is $1.25 per million tokens. Search cost uses recorded mean cost by mode; input cost uses recorded retained tokens. Excludes Plan model input, model output, voice generation, retries, geocoding and enterprise discounts.
