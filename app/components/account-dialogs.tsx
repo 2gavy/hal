@@ -156,8 +156,8 @@ export default function AccountDialogs({
             {runs > 0 && (
               <p className="fine">
                 {ph
-                  ? `Available pa rin ang iyong ${runs} plano.`
-                  : 'Your existing plans are still yours.'}
+                  ? 'Makikita mo pa rin ang mga nauna mong plano.'
+                  : 'You can still view your previous plans.'}
               </p>
             )}
           </div>
