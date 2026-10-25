@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {MAX_CONTEXT_CHARACTERS} from '../../lib/context-budget.mjs';
+import {budgetEvidence} from '../../lib/context-budget.mjs';
 
 // Step 1: keep retrieval coverage separate from final-answer quality.
 export function rubricFor(target) {
@@ -17,20 +17,18 @@ export function prepare(row, target) {
  if (target === 'answer' && (typeof row.answer !== 'string' || !row.answer.trim())) throw Error(`${row.id}: missing final answer; use retrieval target or provide an answer`);
  const sources = row.sources ?? row.response?.results;
  if (!Array.isArray(sources) || !sources.length) throw Error(`${row.id}: missing source excerpts`);
- let left = MAX_CONTEXT_CHARACTERS;
- const evidence = sources.map(source => {
-  const raw = typeof source.excerpt === 'string' ? source.excerpt : (source.highlights ?? []).join('\n');
-  let excerpt = raw.slice(0, left);
-  if (/[\uD800-\uDBFF]$/.test(excerpt)) excerpt = excerpt.slice(0, -1);
-  left -= excerpt.length;
-  return {title: source.title, url: source.url, publishedDate: source.publishedDate, excerpt};
- }).filter(source => source.excerpt.trim());
+ // Use the same total excerpt budget as the app; retain all saved result slots.
+ const budget = budgetEvidence(sources.map(source => ({
+  title: source.title, url: source.url, publishedDate: source.publishedDate,
+  excerpt: typeof source.excerpt === 'string' ? source.excerpt : (source.highlights ?? []).join('\n'),
+ })), 'plan');
+ const evidence = budget.sources.filter(source => source.excerpt.trim());
  if (!evidence.length) throw Error(`${row.id}: no usable source excerpts`);
  return {id: row.id, question: row.query, mode: row.mode,
   location: {country: row.user_country, city: row.user_city},
   reference: row.expected ?? row.expected_answer, referenceDate: row.referenceDate,
   answer: target === 'answer' ? row.answer : undefined, evidence,
-  context_tokens_used: Math.ceil((MAX_CONTEXT_CHARACTERS - left) / 4)};
+  context_tokens_used: budget.estimatedTokens};
 }
 export function fingerprint(payload, model, rubric) {
  return createHash('sha256').update(JSON.stringify({payload, model, rubric})).digest('hex');

@@ -1,6 +1,6 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
-import {MapPin,Utensils,BriefcaseBusiness,CookingPot,Luggage,ClipboardList,Smartphone,House,ChevronRight,ChevronDown,ArrowLeft,ArrowUp,ArrowRight,Plus,Mic,MicOff,Phone,PhoneOff,Volume2,X,Sparkles,RotateCcw,Check,LoaderCircle,Settings,BookOpen,Square,ExternalLink} from 'lucide-react';
+import {MapPin,Utensils,CookingPot,Luggage,ClipboardList,Smartphone,House,ChevronRight,ChevronDown,ArrowLeft,ArrowUp,ArrowRight,Phone,Volume2,X,Sparkles,RotateCcw,Check,LoaderCircle,BookOpen,Square,ExternalLink} from 'lucide-react';
 import {readPlanResponse} from '@/lib/plan-stream.mjs';
 import {displayAnswer} from '@/lib/display-answer.mjs';
 import ReactMarkdown from 'react-markdown';
@@ -15,7 +15,6 @@ import {countries,localCopy} from '@/lib/locale-copy';
 type Mode='chat'|'plan';
 type Result={places?:{name:string;address?:string}[];searchResults?:{title:string;url:string;excerpt:string}[];title:string;answer:string;sources:{title:string;url:string}[];sample:boolean;elapsedMs:number;metrics?:{requestId?:string;contextBudgetScope?:string;searchTimingSource?:string;searchMs?:number;voiceMs?:number;generationMs?:number;inputTokens?:number;outputTokens?:number;audioStartMs?:number;endpointMs?:number;searchType:string;estimatedHighlightTokens?:number;costDollars:number|null}};
 type Turn={channel?:'chat'|'voice'|'plan';id:string;query:string;result:Result};
-const suggestions={chat:['Find food near Tanjong Pagar','How do I make kaya?','What’s happening nearby?'],plan:['Magplano ng bakasyon sa Cebu','Ihambing ang mga mobile plan','Alamin ang mga opsyon sa pabahay']};
 function UserMessage({text}:{text:string}){return <div className="user-message-row"><div className="user-message"><span className="message-author">Daisy</span><p>{text}</p></div><img className="message-avatar" src="/daisy.jpg" alt="Daisy" width={32} height={32}/></div>;}
 export default function Home(){
  const [countryOpen,setCountryOpen]=useState(false); const countryMenu=useRef<HTMLDivElement>(null); const countryTrigger=useRef<HTMLButtonElement>(null);

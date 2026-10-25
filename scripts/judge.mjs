@@ -16,6 +16,28 @@ if (args.help) {
 }
 env.loadEnvConfig(fileURLToPath(new URL('../', import.meta.url)), true, {info(){}, error(){}});
 
+// One record in, one validated judgment out.
+async function judgeRecord(payload, model, key, rubric) {
+ const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json', 'x-goog-api-key': key},
+  body: JSON.stringify({
+   systemInstruction: {parts: [{text: rubric}]},
+   contents: [{role: 'user', parts: [{text: JSON.stringify(payload)}]}],
+   generationConfig: {temperature: 0, responseMimeType: 'application/json', maxOutputTokens: 4096},
+  }),
+  signal: AbortSignal.timeout(180000),
+ });
+ if (!response.ok) throw Error(`Gemini HTTP ${response.status}`);
+ const data = await response.json();
+ const text = data.candidates?.[0]?.content?.parts?.filter(p => !p.thought).map(p => p.text || '').join('');
+ return {
+  judgment: validateJudgment(JSON.parse(text)),
+  model: data.modelVersion || model,
+  usage: data.usageMetadata,
+ };
+}
+
 async function main() {
  if (!args.input || !args.output) throw Error('Provide --input and --output; see npm run judge -- --help');
  const inputPath = path.resolve(args.input), outputPath = path.resolve(args.output);
@@ -59,21 +81,12 @@ async function main() {
   }
   const started = performance.now();
   try {
-   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
-    method:'POST', headers:{'Content-Type':'application/json', 'x-goog-api-key':key},
-    body:JSON.stringify({systemInstruction:{parts:[{text:rubric}]},
-     contents:[{role:'user', parts:[{text:JSON.stringify(payload)}]}],
-     generationConfig:{temperature:0, responseMimeType:'application/json', maxOutputTokens:4096}}),
-    signal:AbortSignal.timeout(180000),
-   });
-   if (!response.ok) throw Error(`Gemini HTTP ${response.status}`);
-   const data = await response.json();
-   const text = data.candidates?.[0]?.content?.parts?.filter(p => !p.thought).map(p => p.text || '').join('');
-   const judgment = validateJudgment(JSON.parse(text));
+   const result = await judgeRecord(payload, model, key, rubric);
+   const {judgment} = result;
    // Step 4: save after every success; subsequent runs resume by content hash.
    const record = {id:payload.id, fingerprint:hash, judgedAt:new Date().toISOString(),
-    target:args.target, model:data.modelVersion || model, judge_latency_ms:Math.round(performance.now()-started),
-    usage:data.usageMetadata, input:payload, judgment};
+    target:args.target, model:result.model, judge_latency_ms:Math.round(performance.now()-started),
+    usage:result.usage, input:payload, judgment};
    report.records = report.records.filter(row => row.id !== payload.id).concat(record);
    await save();
    console.log(`${payload.id}: ${judgment.score}/5 — ${judgment.judge_note}`);
