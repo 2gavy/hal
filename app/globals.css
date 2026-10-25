@@ -324,5 +324,7 @@ body{position:fixed;inset:0}
 .feedback-reason-actions button[type=submit]{background:var(--teal);color:white}
 .feedback-reason-actions button:disabled{opacity:.5;cursor:default}
 
-/* Reserve room for rotating Plan facts so the progress bar stays steady. */
-.thinking .plan-search-fact{max-width:300px;min-height:4.5em;line-height:1.5;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+/* Keep two lines of room for facts, with a compact gap above the bar. */
+.thinking .plan-search-fact{max-width:300px;min-height:3em;line-height:1.5;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+
+.thinking .plan-search-fact + .progress{margin-top:8px}
