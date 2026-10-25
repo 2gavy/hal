@@ -1,10 +1,4 @@
-# Hal
-
-A Next.js demo with short Chat answers, hands-free voice, and deeper Plan research.
-
-## Code walkthrough
-
-[Open the walkthrough](docs/code-walkthrough.md): app integration first, Gemini judging second.
+# Hal — better search for everyday answers and Plan
 
 ## iPhone demo
 
@@ -14,15 +8,59 @@ A Next.js demo with short Chat answers, hands-free voice, and deeper Plan resear
 
 Presentation screenshots. Chat and Voice timings are illustrative demo timings, not benchmark measurements. Screenshots may reflect earlier result counts.
 
-## Current search defaults
+## What is Hal?
 
-| Mode | Exa search type | Results | Highlights |
-| --- | --- | --- | --- |
-| Chat | `lite` | 5 | `true` |
-| Voice | `lite` | 4 | `true` |
-| Plan | `deep` | 10 | `true` |
+Hal is a mobile AI assistant for everyday questions across Southeast Asia. **Hal Chat and Voice** help users find local places, compare options and get quick answers. **Hal+ Plan** tackles bigger requests such as travel planning and housing grants.
 
-Browser favicon: `app/icon.png`. iPhone home-screen icon: `app/apple-icon.png`. Original app icon: `public/brand/hal-app-icon.png`. Next.js supplies the icon metadata links automatically.
+In the case study, Hal serves **3 million monthly users**, with **140,000 Hal+ subscribers**. It handles **40 million quick searches and 600,000 plans a month**. Halcyon is fictional; this repository demonstrates the proposed integration for the exercise.
+
+### Why this matters to the business
+
+Hal already uses Vendor B. Plan drives paid subscriptions, but 26% of plans receive a thumbs-down and 18% of users leave before completion. Cost per answer has risen about 40% this year. The opportunity is to deliver useful, trustworthy plans faster while improving Hal+ margins ahead of the **1 December travel campaign**.
+
+This demo shows how Exa can fit into the existing experience: local context, relevant highlights and a search configuration for each mode.
+
+## Evaluation results
+
+**24 October 2026 · ZingZai · 40 questions**
+
+| Exa FT finding | Result | Why it matters |
+| --- | --- | --- |
+| Retrieved-evidence quality | **4.53 out of 5; 34 of 40 scored 4 or 5** | More relevant context for Hal’s answers |
+| Quick-search p95 | **392 ms** of Exa server time | Measures the search stage, before answer generation |
+| Quick-search raw context | **3,039 tokens on average** | 86% less payload than original Exa |
+| Modeled monthly cost | **$332k; 14.4% below Vendor B** | About $56k/month potential savings at the stated volume |
+
+Baseline quality judges final answers; FT judges retrieval. Baseline speed is client-timed; FT speed is server-timed. These are encouraging findings, not proof of better final answers or an end-to-end speedup. Vendor C remains the lowest-cost option in this model.
+
+**[Open the results tables, charts and all 40 FT rows](evaluation-results/README.md)** · [Download the PDF](evaluation-results/Search%20provider%20comparison%20FT%20-%20Oct%202026.pdf) · [Download the workbook](evaluation-results/results_exa_fine_tune.xlsx)
+
+The workbook is an earlier local snapshot, preserved unchanged. The README tables and charts use the later report snapshot; see the [source-version note](evaluation-results/README.md#files-and-source-versions).
+
+![Monthly search and model input cost](evaluation-results/charts/monthly-cost.png)
+
+## How to present it
+
+| Step | What to show | What to say |
+| --- | --- | --- |
+| 1. Start with Hal’s priorities | The business summary above | “Plan drives Hal+ growth. We need better answers, less waiting and sustainable cost.” |
+| 2. Show the experience | Chat → Voice → Plan on an iPhone | “The same app supports quick questions and deeper planning, using the user’s location.” |
+| 3. Make Plan the main demo | A Philippines persona asking about Japan, then the sources | “Plan needs to answer the whole request and respect the destination. Sources let us inspect the evidence.” |
+| 4. Review the evidence | Quality, speed and cost charts | “Configuration improved retrieved evidence and reduced modeled cost. Here is what we measured and what still needs checking in Hal.” |
+| 5. Explain the integration, if asked | [Code walkthrough](docs/code-walkthrough.md) | “UI first, Exa Lite and Deep calls next, then the separate Gemini judging script.” |
+| 6. Agree the next step | Wei’s production-LLM validation and citation review | “To be ready for 1 December, when do we need to make the provider decision?” |
+
+**Presentation suggestions:** spend most of the demo on Plan, invite one question from the team, and keep the iPhone screenshots as a fallback. Show results before code. Use the quality scores to explain retrieval improvements, and agree an A/B test with Wei to measure the effect on real users.
+
+## The integration in one view
+
+| Mode | User need | Exa API | Results | Highlights |
+| --- | --- | --- | --- | --- |
+| Chat | Quick everyday answers | `lite` | 5 | `true` |
+| Voice | Hands-free answers | `lite` | 4 | `true` |
+| Plan | Multi-part research | `deep` | 10 | `true` |
+
+Location context accompanies the query; news uses the supported news category. Retained highlights are capped at approximately **6,000 tokens**. Chat and Voice use ElevenLabs; Plan calls Exa Deep directly. Gemini is used only for evaluation.
 
 ## Local setup
 
