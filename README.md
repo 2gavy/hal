@@ -47,6 +47,19 @@ validate input without API calls. Output is saved separately and completed
 judgments are skipped on resume. Retrieval scores and final-answer scores are
 separate evaluation targets.
 
+Raw evaluation results are not included. Supply your own exported results JSON:
+
+```sh
+npm run judge -- \
+  --input /path/to/search-results.json \
+  --output .data/evaluation/retrieval.json \
+  --dry-run
+```
+
+Replace the input path with your file. It accepts an array or `{ "records": [...] }`,
+with `id`, `query` and `response.results[].highlights` (or `sources[].excerpt`).
+Remove `--dry-run` to run Gemini judging.
+
 ## Deployment and checks
 
 Configure `EXA_API_KEY`, `ELEVENLABS_API_KEY`, `ELEVENLABS_AGENT_ID`,

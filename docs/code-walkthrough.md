@@ -9,7 +9,7 @@ Run `npm run dev` from `hal`, then open http://localhost:3000.
 | `app/page.tsx` | “This only assembles the screen and connects components to actions.” |
 | `app/components/conversation.tsx` and `composer.tsx` | “The conversation displays results; the composer handles input. Neither calls an API.” |
 | `app/hooks/use-hal.ts` → `send()` | “This coordinates requests, cancellation and conversation state.” |
-| `lib/plan-client.mjs` → `app/api/hal/route.ts` | “Plan goes through our server, where the Exa key stays private.” |
+| `lib/plan-client.Camjs` → `app/api/hal/route.ts` | “Plan goes through our server, where the Exa key stays private.” |
 | `lib/logic.mjs` → `buildSearch()` | “This builds the Exa request: question, location, objective and highlights.” |
 | `lib/search-profiles.mjs` | “Chat gets 5 results, Voice 4, Plan 10.” |
 
@@ -42,18 +42,18 @@ Set `GEMINI_API_KEY` and `GEMINI_JUDGE_MODEL` in `.env.local`, then run from `ha
 
 ```sh
 npm run judge -- \
-  --input ../data/evaluation/all-location-final.json \
+  --input /path/to/search-results.json \
   --output .data/evaluation/retrieval.json \
-  --ids q01,q02,q03 --dry-run
+  --dry-run
 ```
 
 - Remove `--dry-run` to call Gemini and save scores.
-- Remove `--ids q01,q02,q03` to judge all 40.
+- Optionally add `--ids q01,q02,q03` to judge selected IDs from your input.
 - Repeat the command to resume after a timeout.
 - Open `.data/evaluation/retrieval.json`: show `score` and `judge_note`.
 
 This scores **retrieved evidence**, as in the Exa FT report. To score final Hal
 answers, provide saved answers and add `--target answer`. It does not rerun Exa.
-The input path above is the saved workspace dataset; use your exported JSON on
-another machine. It accepts an array or `{ "records": [...] }`, with `id`,
+Replace `/path/to/search-results.json` with your exported search results;
+raw evaluation results are not included in this submission. It accepts an array or `{ "records": [...] }`, with `id`,
 `query`, and `response.results[].highlights` (or `sources[].excerpt`).
