@@ -33,8 +33,26 @@ export async function POST(req:NextRequest) {
  const upstreamAbort=new AbortController();
  const streaming=body.stream===true;
  try {
-  const response=await fetch('https://api.exa.ai/search',{method:'POST',headers:{'Content-Type':'application/json',...(streaming?{Accept:'text/event-stream'}:{}),'x-api-key':process.env.EXA_API_KEY},body:JSON.stringify({...buildSearch(body.query.trim(),body.mode,selectedLocation(body.location,resolveLocation(req.headers.get('x-vercel-ip-country'),req.headers.get('x-vercel-ip-city')))),...(streaming?{stream:true}:{})}),signal:AbortSignal.any([upstreamAbort.signal,req.signal,AbortSignal.timeout(55000)])});
+  // WALKTHROUGH 3: this is the live Plan API call. Keep EXA_API_KEY server-side
+  // in .env.local / Vercel, never in app/page.tsx or a NEXT_PUBLIC_ variable.
+  const location = selectedLocation(body.location, resolveLocation(
+   req.headers.get('x-vercel-ip-country'), req.headers.get('x-vercel-ip-city')
+  ));
+  const searchRequest = buildSearch(body.query.trim(), body.mode, location);
+  const response = await fetch('https://api.exa.ai/search', {
+   method: 'POST',
+   headers: {
+    'Content-Type': 'application/json',
+    ...(streaming ? {Accept: 'text/event-stream'} : {}),
+    'x-api-key': process.env.EXA_API_KEY,
+   },
+   body: JSON.stringify({...searchRequest, ...(streaming ? {stream: true} : {})}),
+   signal: AbortSignal.any([upstreamAbort.signal, req.signal, AbortSignal.timeout(55000)]),
+  });
   if(!response.ok) return NextResponse.json({error:response.status===429?'Search is busy. Please try again shortly.':'Search could not complete. Please try again.',upstreamStatus:response.status},{status:502});
+  // WALKTHROUGH 4: return answer + cited URLs + metrics to the UI.
+  // Exa server time and HTTP round-trip time are distinct measurements.
+  // The local highlight cap does not control Exa's internal synthesis context.
   function resultFor(data:any){
   const searchMs=exaSearchMs(data);
   const searchRoundtripMs=Date.now()-searchStart;

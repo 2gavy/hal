@@ -2,6 +2,13 @@
 
 A Next.js demo with short Chat answers, hands-free voice, and deeper Plan research.
 
+## Code walkthrough and evaluation
+
+See [the two-part walkthrough](docs/code-walkthrough.md):
+
+1. **UI app:** where Exa is called, where to put the API key, and the Chat/Voice/Plan settings. Integration comments are marked `WALKTHROUGH`.
+2. **Judging:** `npm run judge -- --help` for saved-results scoring with Gemini. Includes dry-run, query selection and resumable output. No API calls are made by a dry-run.
+
 ## iPhone demo
 
 | Hal Chat | Hal Voice | Hal+ Plan |

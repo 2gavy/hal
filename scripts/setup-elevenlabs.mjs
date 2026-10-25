@@ -14,10 +14,14 @@ async function api(path,body){
 async function save(name,value){await saveEnv(name,value);process.env[name]=value;}
 // Persist each resource ID immediately so a failed setup can resume without duplicates.
 if(process.env.ELEVENLABS_AGENT_ID){console.log('Agent already configured. No existing agent was modified.');process.exit(0);}
+// CHAT/VOICE INTEGRATION: provision a secret in the ElevenLabs workspace.
+// The browser receives a signed conversation URL, never this Exa API key.
 if(!process.env.ELEVENLABS_EXA_SECRET_ID){
  const secret=await api('secrets',{type:'new',name:`Hal Exa ${Date.now()}`,value:process.env.EXA_API_KEY});
  await save('ELEVENLABS_EXA_SECRET_ID',secret.secret_id);
 }
+// Register web_search -> POST https://api.exa.ai/search (Lite).
+// configureSearchTool supplies highlights and binds the 5/4 result count.
 if(!process.env.ELEVENLABS_EXA_TOOL_ID){
  const tool=await api('tools',{tool_config:configureSearchTool({dynamic_variables:{dynamic_variable_placeholders:{...searchVariables('voice'),country:'SG'}},type:'webhook',pre_tool_speech:'off',name:'web_search',description:'Search for current factual information, local places, official requirements and prices. Include the user city and country for nearby questions; preserve explicit destinations.',api_schema:{url:'https://api.exa.ai/search',method:'POST',request_headers:{'x-api-key':{secret_id:process.env.ELEVENLABS_EXA_SECRET_ID},'Content-Type':'application/json','x-exa-integration':'elevenlabs'},request_body_schema:{type:'object',properties:{objective:{type:'string',description:OBJECTIVE_DESCRIPTION},query:{type:'string',description:'Specific natural-language search question. Resolve nearby using the city and country from the conversation context.'},type:{type:'string',constant_value:'lite'},numResults:{type:'integer',dynamic_variable:'search_result_count'},userLocation:{type:'string',dynamic_variable:'country'},contents:{type:'object',properties:{highlights:{type:'boolean',constant_value:true}},required:['highlights']}},required:['query','type','numResults','contents','userLocation','objective']}}})});
  await save('ELEVENLABS_EXA_TOOL_ID',tool.id);

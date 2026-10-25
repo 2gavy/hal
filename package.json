@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "test": "node --test tests/*.test.mjs",
-    "setup:voice": "node scripts/setup-elevenlabs.mjs"
+    "setup:voice": "node scripts/setup-elevenlabs.mjs",
+    "judge": "node scripts/judge.mjs"
   },
   "dependencies": {
     "@elevenlabs/client": "^1.30.0",

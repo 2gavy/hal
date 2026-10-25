@@ -1,0 +1,18 @@
+[
+  {
+    "id": "example01",
+    "query": "What time does the example library close on Monday?",
+    "mode": "chat",
+    "user_country": "SG",
+    "user_city": "Singapore",
+    "expected": "It closes at 8 pm on Monday. Synthetic test data, not a real library.",
+    "answer": "The example library closes at 8 pm on Monday.",
+    "sources": [
+      {
+        "title": "Synthetic library opening hours",
+        "url": "https://example.com/library",
+        "excerpt": "Example library opening hours: Monday to Friday, 10 am to 8 pm. This is synthetic test data."
+      }
+    ]
+  }
+]
