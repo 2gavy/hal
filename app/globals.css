@@ -304,4 +304,5 @@ body{position:fixed;inset:0}
    Decorative motion remains disabled by the global accessibility rule. */
 @media(prefers-reduced-motion:reduce){
   .send-spinner,.thinking>.spin{animation:spin 1.6s linear infinite!important}
+  .thinking .progress i{animation:progress 3s infinite ease-in-out!important}
 }
