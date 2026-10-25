@@ -35,6 +35,6 @@ Baseline quality judges final answers; FT judges retrieval. Baseline speed is cl
 
 **[Open the results tables, charts and all 40 FT rows](evaluation-results/README.md)** · [Download the PDF](evaluation-results/Search%20provider%20comparison%20FT%20-%20Oct%202026.pdf) · [Download the workbook](evaluation-results/results_exa_fine_tune.xlsx)
 
-The workbook is an earlier local snapshot, preserved unchanged. The README tables and charts use the later report snapshot; see the [source-version note](evaluation-results/README.md#files-and-source-versions).
+The workbook, README tables and charts use the same 40-row FT report snapshot. See the [source-version note](evaluation-results/README.md#files-and-source-versions).
 
 ![Monthly search and model input cost](evaluation-results/charts/monthly-cost.png)
