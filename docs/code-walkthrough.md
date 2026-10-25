@@ -42,7 +42,7 @@ Set `GEMINI_API_KEY` and `GEMINI_JUDGE_MODEL` in `.env.local`, then run from `ha
 
 ```sh
 npm run judge -- \
-  --input ../outputs/hal-eval-sample/all-location-final.json \
+  --input ../data/evaluation/all-location-final.json \
   --output .data/evaluation/retrieval.json \
   --ids q01,q02,q03 --dry-run
 ```
