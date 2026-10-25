@@ -4,20 +4,16 @@ import {budgetEvidence} from '@/lib/context-budget.mjs';
 import { NextRequest, NextResponse } from 'next/server';
 import { resolveLocation, selectedLocation } from '@/lib/location.mjs';
 import { buildSearch, safeUrl } from '@/lib/logic.mjs';
-import { allowedOrigin, localDevelopment } from '@/lib/request-origin.mjs';
+import { allowedOrigin } from '@/lib/request-origin.mjs';
 export const maxDuration = 60;
 const buckets = new Map<string,{count:number;until:number}>();
-function requiresAccess(req:NextRequest) {
- return !!process.env.HAL_ACCESS_CODE && !localDevelopment(req.headers.get('host'),process.env.NODE_ENV,process.env.VERCEL);
-}
 export async function GET(req:NextRequest) {
  const location=resolveLocation(req.headers.get('x-vercel-ip-country'),req.headers.get('x-vercel-ip-city'));
- return NextResponse.json({liveAvailable:!!process.env.EXA_API_KEY,accessRequired:requiresAccess(req),location},{headers:{'Cache-Control':'private, no-store'}});
+ return NextResponse.json({liveAvailable:!!process.env.EXA_API_KEY,accessRequired:false,location},{headers:{'Cache-Control':'private, no-store'}});
 }
 export async function POST(req:NextRequest) {
  const start=Date.now();
  if(!process.env.EXA_API_KEY) return NextResponse.json({error:'Live search is not configured yet. Add EXA_API_KEY to .env.local (locally) or Vercel environment settings.'},{status:503});
- if(requiresAccess(req) && req.headers.get('x-hal-access')!==process.env.HAL_ACCESS_CODE) return NextResponse.json({error:'Enter the demo access code in settings.'},{status:401});
  const origin=req.headers.get('origin');
  if(!allowedOrigin(origin,req.nextUrl.origin,process.env.NODE_ENV==='development' && !process.env.VERCEL)) return NextResponse.json({error:'Request origin is not allowed.'},{status:403});
  if(Number(req.headers.get('content-length'))>16000) return NextResponse.json({error:'Your message is too long.'},{status:413});

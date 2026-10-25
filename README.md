@@ -28,7 +28,7 @@ Browser favicon: `app/icon.png`. iPhone home-screen icon: `app/apple-icon.png`. 
 
 Install dependencies with `npm ci`. Add `EXA_API_KEY` and `ELEVENLABS_API_KEY` to the ignored `.env.local` file, then run `npm run setup:voice`. The setup creates a private ElevenLabs agent and an Exa webhook tool, stores the Exa key as a workspace secret, and saves the agent/tool IDs locally. Existing IDs are reused on reruns. Start with `npm run dev` and open http://localhost:3000.
 
-Never prefix credentials with `NEXT_PUBLIC_`. The browser receives only a short-lived signed conversation URL. Local development skips the demo access code; hosted ElevenLabs sessions require `HAL_ACCESS_CODE`.
+Never prefix credentials with `NEXT_PUBLIC_`. The browser receives only a short-lived signed conversation URL. Chat and Voice require `HAL_ACCESS_CODE` before creating an ElevenLabs session, including locally. Plan calls Exa without an access code; origin checks and rate limits still apply.
 
 ## How the app works
 

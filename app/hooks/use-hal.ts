@@ -149,20 +149,20 @@ export function useHal() {
           },
         );
       } else {
-        result = await requestPlan(query, accessCode, location, controller.signal, setPartial);
-        try {
-          if (accessCode) sessionStorage.setItem('hal-access', accessCode);
-        } catch {}
+        result = await requestPlan(query, location, controller.signal, setPartial);
       }
 
       if (controller.signal.aborted) return;
+      if (current === 'chat' && accessCode) {
+        try { sessionStorage.setItem('hal-access', accessCode); } catch {}
+      }
       result = { ...result, answer: displayAnswer(result.answer) };
       const turnId = crypto.randomUUID();
       setTurns((t) => ({ ...t, [current]: [...t[current], { id: turnId, query, result }] }));
       setDrafts((d) => ({ ...d, [current]: '' }));
       if (current === 'plan' && !upgraded) setRuns((n) => Math.min(3, n + 1));
     } catch (e) {
-      if ((e as { status?: number }).status === 401) {
+      if (current === 'chat' && (e as { status?: number }).status === 401) {
         pendingQuery.current = query;
         setAccessError(accessCode ? 'That code wasn’t accepted. Please try again.' : '');
         try {

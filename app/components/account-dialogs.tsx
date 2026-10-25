@@ -307,7 +307,7 @@ export default function AccountDialogs({
               <X size={21} />
             </button>
             <h2 id="access-title">Enter access code</h2>
-            <p className="muted">Just once for this session.</p>
+            <p className="muted">Required for Chat and Voice. Plan needs no code.</p>
             <form
               onSubmit={(e) => {
                 e.preventDefault();

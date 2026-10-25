@@ -6,7 +6,8 @@ export async function POST(req:NextRequest){
  const local=localDevelopment(req.headers.get('host'),process.env.NODE_ENV,process.env.VERCEL);
  const reply=(body:object,status=200)=>NextResponse.json(body,{status,headers:{'Cache-Control':'private, no-store'}});
  if(!allowedOrigin(req.headers.get('origin'),req.nextUrl.origin,local))return reply({error:'Request origin is not allowed.'},403);
- if(!local&&(!process.env.HAL_ACCESS_CODE||req.headers.get('x-hal-access')!==process.env.HAL_ACCESS_CODE))return reply({error:'Enter your access code to start voice.'},401);
+ // Chat and Voice both use this gate before any ElevenLabs request.
+ if(!process.env.HAL_ACCESS_CODE||req.headers.get('x-hal-access')!==process.env.HAL_ACCESS_CODE)return reply({error:'Enter your access code to use Chat or Voice.'},401);
  if(!process.env.ELEVENLABS_API_KEY||!process.env.ELEVENLABS_AGENT_ID)return reply({error:'ElevenLabs voice setup is not complete yet.'},503);
  const now=Date.now();for(const [key,value] of requests)if(value.until<now)requests.delete(key);
  const key=req.headers.get('x-forwarded-for')?.split(',')[0]||'local';
