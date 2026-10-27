@@ -273,6 +273,13 @@ body{position:fixed;inset:0}
 .sources a span{min-width:0}
 .sources a svg{flex-shrink:0}
 .markdown pre{max-width:100%;overflow-x:auto}
+.answer-table-scroll{max-width:100%;overflow-x:auto;touch-action:pan-x pan-y;overscroll-behavior-x:contain;margin:14px 0;border:1px solid var(--line);border-radius:10px}
+.answer-table-scroll:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.answer-table-scroll table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.5}
+.answer-table-scroll th,.answer-table-scroll td{min-width:110px;padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.answer-table-scroll th{font-weight:600;color:var(--ink);background:var(--wash)}
+.answer-table-scroll tr:last-child td{border-bottom:0}
+.answer-table-scroll th:last-child,.answer-table-scroll td:last-child{border-right:0}
 .welcome h1{white-space:normal}
 .country-popover{max-height:calc(var(--app-height,100dvh) - 4.3cqw - 66px - env(safe-area-inset-top));overflow-y:auto;overscroll-behavior:contain}
 .input-row textarea{max-height:max(44px,calc(var(--app-height,100dvh)*.22));overflow-y:auto!important}

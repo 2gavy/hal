@@ -12,8 +12,7 @@ import {
   BookOpen,
   ExternalLink,
 } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import { displayAnswer } from '@/lib/display-answer.mjs';
+import AnswerMarkdown from './answer-markdown';
 import { safeUrl } from '@/lib/logic.mjs';
 import { localCopy } from '@/lib/locale-copy';
 import type { Mode, Turn, HalLocation, PartialAnswer, ChatStage } from '@/lib/hal-types';
@@ -144,9 +143,7 @@ export default function Conversation({
                   ))}
                 </div>
               ) : (
-                <div className="markdown">
-                  <ReactMarkdown>{displayAnswer(t.result.answer)}</ReactMarkdown>
-                </div>
+                <AnswerMarkdown>{t.result.answer}</AnswerMarkdown>
               )}
               <MapShortcuts answer={t.result.answer} places={t.result.places} query={t.query} />
               {t.result.metrics?.generationMs != null && (
@@ -228,9 +225,7 @@ export default function Conversation({
             <span className="mini-brand">h</span>hal
           </div>
           {partial.title && <h2>{partial.title}</h2>}
-          <div className="markdown">
-            <ReactMarkdown>{displayAnswer(partial.answer)}</ReactMarkdown>
-          </div>
+          <AnswerMarkdown>{partial.answer}</AnswerMarkdown>
         </div>
       )}
       {busy === mode && (
