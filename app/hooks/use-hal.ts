@@ -154,6 +154,7 @@ export function useHal() {
 
       if (controller.signal.aborted) return;
       if (current === 'chat' && accessCode) {
+        setAccess(accessCode);
         try { sessionStorage.setItem('hal-access', accessCode); } catch {}
       }
       result = { ...result, answer: displayAnswer(result.answer) };
@@ -202,6 +203,8 @@ export function useHal() {
     window.speechSynthesis.speak(utterance);
   }
   function endCall() {
+    // Voice can accept a new code inside its own dialog.
+    try { setAccess(sessionStorage.getItem('hal-access') || ''); } catch {}
     setCallOpen(false);
     setToast('');
     requestAnimationFrame(() => callButton.current?.focus());
